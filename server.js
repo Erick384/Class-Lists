@@ -1,36 +1,17 @@
 const express = require("express");
-const server = express();
-server.use(express.json())
-const classlist = [
-  { id: 1, name: "Erick" },
-  { id: 2, name: "Mathenge" },
-  { id: 3, name: "Amos" },
-];
-
-server.get("/class", (req, res) => {
-  res.send(classlist);
-});
-
-server.post("/class", (req, res) => {
-  try {
-    classlist.push(req.body)
-    res.send(classlist)
-  } catch (error) {
-    console.error(error);
-  }
-});
+const { getStudents, getStudent, createStudent, updateStudent, deleteStudent } = require("./controllers/controllers");
+const app = express();
+app.use(express.json())
 
 
-server.get("/class/:id", (req, res)=>{
-  const id = req.params.id
+app.use(express.json())
 
+app.get('/students', getStudents)
+app.get('/students/:id',getStudent)
+app.post('/students', createStudent)
+app.put('/students/:id', updateStudent)
+app.delete('/students/:id', deleteStudent)
 
-  const person = classlist.filter(person=>{
-    return person.id == id
-  })
-  res.send(person)
-})
-
-server.listen(4000, () => {
+app.listen(4000, () => {
   console.log("Server up and running");
 });
